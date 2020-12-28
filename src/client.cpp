@@ -3,5 +3,7 @@
 
 int main()
 {
+	network_init();
 
+	network_shutdown();
 }
