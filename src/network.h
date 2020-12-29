@@ -9,3 +9,7 @@ void network_shutdown();
 void connect(SOCKET &server, const char *ip, unsigned short port);
 
 void setup_server(SOCKET &listen_socket, unsigned short port);
+
+void recv_all(SOCKET &s, char *buff, int len);
+
+void send_all(SOCKET &s, const char *buff, int len);

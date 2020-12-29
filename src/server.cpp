@@ -10,9 +10,9 @@ int main()
 	client2 = accept(listen_socket, nullptr, nullptr);
 
 	char decide_lado = '1';
-	send(client1,&decide_lado,1,0);
+	send_all(client1, &decide_lado, 1);
 	decide_lado = '2';
-	send(client2,&decide_lado,1,0);
+	send_all(client2, &decide_lado, 1);
 
 	network_shutdown();
 }

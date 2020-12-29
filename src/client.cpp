@@ -8,8 +8,7 @@ int main()
 	connect(servidor, "127.0.0.1", 7777);
 
 	char recebe_lado;
-	recebe_lado = '0';
-	recv(servidor,&recebe_lado,1,0);
+	recv_all(servidor, &recebe_lado, 1);
 
 	printf("lado %c\n",recebe_lado);
 

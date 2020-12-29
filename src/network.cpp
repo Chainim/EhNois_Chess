@@ -60,3 +60,33 @@ void setup_server(SOCKET &listen_socket, unsigned short port)
 		closesocket(listen_socket), WSACleanup(), exit(0);
 	}
 }
+
+void recv_all(SOCKET &socket, char *buff, int len)
+{
+	int total_read = 0, read;
+	while(total_read < len)
+	{
+		read = recv(socket, buff + total_read, len - total_read, 0);
+		if(read == SOCKET_ERROR)
+		{
+			fprintf(stderr, "Error ocurred while receiving (Error %d)\n", WSAGetLastError());
+			return;
+		}
+		total_read += read;
+	}
+}
+
+void send_all(SOCKET &socket, const char *buff, int len)
+{
+	int total_sent = 0, sent = 0;
+	while(total_sent < len)
+	{
+		sent = send(socket, buff + total_sent, len - total_sent, 0);
+		if(sent == SOCKET_ERROR)
+		{
+			fprintf(stderr, "Error ocurred while sending (Error %d)\n", WSAGetLastError());
+			return;
+		}
+		total_sent += sent;
+	}
+}
