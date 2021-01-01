@@ -1,4 +1,4 @@
 #pragma once
 
 void init_window();
-void window_loop();
+bool window_loop();

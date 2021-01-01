@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "network.h"
 #include "board_utils.h"
+#include "window.h"
+#include "user_interface.h"
 
 int main()
 {
@@ -21,9 +23,15 @@ int main()
 	board_init(board);
 	print_board(board);
 
+	init_window();
+
 	bool black_turn = false, match_running = true;
 	while(match_running)
 	{
+		draw_interface();
+		if(!window_loop())
+			break;
+
 		char move[4];
 		if((black_turn && recebe_lado == '2') || (!black_turn && recebe_lado == '1'))
 		{
