@@ -9,8 +9,8 @@ run_client: client.exe
 run_server: server.exe
 	server.exe
 
-client.exe: src/client.cpp src/network.cpp src/board_utils.cpp src/window.cpp src/user_interface.cpp
-	g++ $(FLAGS) -o client src/client.cpp src/network.cpp src/board_utils.cpp src/window.cpp src/user_interface.cpp $(LINKER_FLAGS)
+client.exe: src/client.cpp src/network.cpp src/board_utils.cpp src/window.cpp src/user_interface.cpp src/file_io.cpp
+	g++ $(FLAGS) -o client src/client.cpp src/network.cpp src/board_utils.cpp src/window.cpp src/user_interface.cpp src/file_io.cpp $(LINKER_FLAGS)
 
 server.exe: src/server.cpp src/network.cpp src/board_utils.cpp
 	g++ $(FLAGS) -o server src/server.cpp src/network.cpp src/board_utils.cpp $(LINKER_FLAGS)

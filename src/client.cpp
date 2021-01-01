@@ -8,10 +8,10 @@ int main()
 {
 	network_init();
 	SOCKET servidor;
-	connect(servidor, "127.0.0.1", 7777);
+	//connect(servidor, "127.0.0.1", 7777);
 
 	char recebe_lado;
-	recv_all(servidor, &recebe_lado, 1);
+	//recv_all(servidor, &recebe_lado, 1);
 
 	printf("lado %c\n",recebe_lado);
 
@@ -24,6 +24,7 @@ int main()
 	print_board(board);
 
 	init_window();
+	load_textures();
 
 	bool black_turn = false, match_running = true;
 	while(match_running)
@@ -32,7 +33,7 @@ int main()
 		if(!window_loop())
 			break;
 
-		char move[4];
+		/*char move[4];
 		if((black_turn && recebe_lado == '2') || (!black_turn && recebe_lado == '1'))
 		{
 			scanf(" %c%c%c%c", &move[0], &move[1], &move[2], &move[3]);
@@ -49,7 +50,7 @@ int main()
 		print_board(board);
 
 
-		black_turn = !black_turn;
+		black_turn = !black_turn;*/
 	}
 
 	network_shutdown();
