@@ -37,7 +37,6 @@ void draw_string(float x, float y, float char_width, float char_height, const ch
 {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, font_tid);
-	glColor3f(1.0f, 1.0f, 1.0f);
 
 	float texture_size = 1.0f / 16 / 8 * 7;
 
@@ -65,7 +64,7 @@ void draw_string(float x, float y, float char_width, float char_height, const ch
 	glDisable(GL_TEXTURE_2D);
 }
 
-void draw_interface()
+void draw_interface(char board[8][8])
 {
 	glClearColor(0.375f, 0.375f, 0.375f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -93,9 +92,23 @@ void draw_interface()
 			glVertex2f((j + 1) * quad_width - 1 + horizontal_margin, (i + 1) * quad_height - 1 + vertical_margin);
 			glVertex2f(j * quad_width - 1 + horizontal_margin, (i + 1) * quad_height - 1 + vertical_margin);
 			glEnd();
+
+			char piece[2] = " ";
+			piece[0] = board[i][j];
+			glColor3f(0.0f, 0.0f, 1.0f);
+			draw_string(j * quad_width - 1 + horizontal_margin, i * quad_height - 1 + vertical_margin, quad_width, quad_height, piece);
 		}
-		char s[2] = "A";
-		s[0] = 'A' + i;
+		char s[2] = "1";
+		s[0] = '1' + i;
+		glColor3f(1.0f, 1.0f, 1.0f);
 		draw_string(-1, i * quad_height - 1 + vertical_margin, quad_width, quad_height, s);
+	}
+
+	for(int j = 0; j < 8; ++j)
+	{
+		char s[2] = "A";
+		s[0] = 'A' + j;
+		glColor3f(1.0f, 1.0f, 1.0f);
+		draw_string(j * quad_width - 1 + horizontal_margin, 1 - vertical_margin, quad_width, quad_height, s);
 	}
 }
