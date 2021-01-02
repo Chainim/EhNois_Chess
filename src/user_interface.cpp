@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include "file_io.h"
 #define GL_BGR 0x80E0
+#define GL_BGRA 0x80E1
 
 unsigned int font_tid;
 
@@ -15,7 +16,7 @@ unsigned int load_texture(const char *path)
 	static char pixels[(1 << 21)];
 	read_bmp(path, width, height, pixels);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, pixels);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,  GL_BGRA, GL_UNSIGNED_BYTE, pixels);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -25,6 +26,9 @@ unsigned int load_texture(const char *path)
 void load_textures()
 {
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+
 	font_tid = load_texture("debug_font.bmp");
 	glDisable(GL_TEXTURE_2D);
 }

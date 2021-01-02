@@ -22,9 +22,9 @@ void read_bmp(const char *filename, int &out_width, int &out_height, char *out_p
 	
 	fread(&info_header_sz, 4, 1, f);
 	fseek(f, -4, SEEK_CUR);
-	if(info_header_sz != 40)
+	if(info_header_sz != 40 && info_header_sz != 124)
 	{
-		fprintf(stderr, "Unsupported BMP info header\n");
+		fprintf(stderr, "Unsupported BMP info header (header size: %d)\n", info_header_sz);
 		fclose(f);
 	}
 
@@ -43,9 +43,9 @@ void read_bmp(const char *filename, int &out_width, int &out_height, char *out_p
 	img_sz = *(int*)(info_header + 20);
 	if(img_sz == 0)
 		img_sz = out_width * out_height * bits_per_pixel >> 3;
-	if(compression_method != 0)
+	if(compression_method != 0 && compression_method != 3)
 	{
-		fprintf(stderr, "Unsupported compression method (method %d)\n", compression_method);
+		fprintf(stderr, "Unsupported compression method (method: %d)\n", compression_method);
 		fclose(f);
 	}
 	fseek(f, pixel_array_offset, SEEK_SET);
