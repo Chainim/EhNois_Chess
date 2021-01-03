@@ -69,7 +69,7 @@ void draw_interface(char board[8][8])
 	glClearColor(0.375f, 0.375f, 0.375f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	float horizontal_margin = 0.2f;
+	float horizontal_margin = 0.4f;
 	float vertical_margin = 0.2f;
 	float quad_width = (2.0f - 2 * horizontal_margin) / 8;
 	float quad_height = (2.0f - 2 * vertical_margin) / 8;
@@ -81,11 +81,11 @@ void draw_interface(char board[8][8])
 			glBegin(GL_QUADS);
 			if((i + j) % 2)
 			{
-				glColor3f(0.0f, 0.0f, 0.0f);
+				glColor3f(1.0f, 1.0f, 1.0f);
 			}
 			else
 			{
-				glColor3f(1.0f, 1.0f, 1.0f);
+				glColor3f(0.0f, 0.0f, 0.0f);
 			}
 			glVertex2f(j * quad_width - 1 + horizontal_margin, i * quad_height - 1 + vertical_margin);
 			glVertex2f((j + 1) * quad_width - 1 + horizontal_margin, i * quad_height - 1 + vertical_margin);
@@ -101,7 +101,7 @@ void draw_interface(char board[8][8])
 		char s[2] = "1";
 		s[0] = '1' + i;
 		glColor3f(1.0f, 1.0f, 1.0f);
-		draw_string(-1, i * quad_height - 1 + vertical_margin, quad_width, quad_height, s);
+		draw_string(-1 + horizontal_margin - quad_width, i * quad_height - 1 + vertical_margin, quad_width, quad_height, s);
 	}
 
 	for(int j = 0; j < 8; ++j)

@@ -7,7 +7,7 @@
 int main()
 {
 	network_init();
-	SOCKET servidor;
+	//SOCKET servidor;
 	//connect(servidor, "127.0.0.1", 7777);
 
 	char recebe_lado;

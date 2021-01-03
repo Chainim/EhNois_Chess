@@ -1,6 +1,7 @@
 #include "file_io.h"
 #include <stdio.h>
 
+//https://en.wikipedia.org/wiki/BMP_file_format
 void read_bmp(const char *filename, int &out_width, int &out_height, char *out_pixels)
 {
 	FILE *f = fopen(filename, "rb");
@@ -42,7 +43,7 @@ void read_bmp(const char *filename, int &out_width, int &out_height, char *out_p
 	compression_method = *(int*)(info_header + 16);
 	img_sz = *(int*)(info_header + 20);
 	if(img_sz == 0)
-		img_sz = out_width * out_height * bits_per_pixel >> 3;
+		img_sz = (((bits_per_pixel * out_width + 31) >> 5) << 2) * out_height;
 	if(compression_method != 0 && compression_method != 3)
 	{
 		fprintf(stderr, "Unsupported compression method (method: %d)\n", compression_method);
