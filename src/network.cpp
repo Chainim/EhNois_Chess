@@ -90,3 +90,29 @@ void send_all(SOCKET &socket, const char *buff, int len)
 		total_sent += sent;
 	}
 }
+
+//https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-ioctlsocket
+void set_blocking(SOCKET &s, bool blocking)
+{
+	static unsigned long b = 0;
+	static unsigned long n_b = 1;
+	int ctlerror = ioctlsocket(s, FIONBIO, (blocking ? &b : &n_b));
+	if(ctlerror != 0)
+	{
+		fprintf(stderr, "ioctlsocket (blocking) failed (Error %d)\n", ctlerror);
+		closesocket(s);
+	}	
+}
+
+//https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-setsockopt
+//https://en.wikipedia.org/wiki/Nagle%27s_algorithm
+void set_tcpnodelay(SOCKET &s, bool val)
+{
+	static BOOL opt_val = (val ? TRUE : FALSE);
+	int sockopterror = setsockopt(s, IPPROTO_TCP, TCP_NODELAY, (const char *)&opt_val, sizeof(opt_val));
+	if(sockopterror != 0)
+	{
+		fprintf(stderr, "setsockopt (tcp_nodelay) failed (Error %d)\n", sockopterror);
+		closesocket(s);
+	}
+}

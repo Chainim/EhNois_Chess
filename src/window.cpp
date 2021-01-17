@@ -4,6 +4,7 @@
 #include <windef.h>
 #include <winuser.h>
 #include <wingdi.h>
+#include <windowsx.h>
 
 #include <stdio.h>
 #include <GL/gl.h>
@@ -16,11 +17,18 @@ bool key_states[256];
 char key_buff[256];
 short key_buff_sz;
 
+int mouse_x, mouse_y;
+
 void init_keyboard()
 {
 	memset(key_states, 0, sizeof key_states);
 	memset(key_buff, 0, sizeof key_buff);
 	key_buff_sz = 0;
+}
+
+void init_mouse()
+{
+	mouse_x = mouse_y = 0;
 }
 
 void init_window()
@@ -113,13 +121,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		case WM_KEYDOWN:
 		{
-			char key = wParam;
 			key_states[wParam] = true;
 			break;
 		}
 		case WM_KEYUP:
 		{
-			char key = wParam;
 			key_states[wParam] = false;
 			break;
 		}
@@ -128,6 +134,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			char key = wParam;
 			key_buff[key_buff_sz++] = key;
 			key_buff[key_buff_sz] = 0;
+			break;
+		}
+		case WM_MOUSEMOVE:
+		{
+			int x_pos = GET_X_LPARAM(lParam);
+			int y_pos = GET_Y_LPARAM(lParam);
+			mouse_x = x_pos;
+			mouse_y = y_pos;
 			break;
 		}
 	}

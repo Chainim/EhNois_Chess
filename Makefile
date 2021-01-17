@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17
+CXXFLAGS = -std=c++17 -Wall
 LDFLAGS = -lopengl32 -lgdi32 -lws2_32
 
 .PHONY: run_client run_server
