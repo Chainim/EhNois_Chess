@@ -4,6 +4,10 @@
 void board_init(char board[8][8])
 {
 	for(int i = 0; i < 8; ++i)
+		for(int j = 0; j < 8; ++j)
+			board[i][j] = 0;
+
+	for(int i = 0; i < 8; ++i)
 		board[1][i] = PAWN;
 	board[0][0] = ROOK;
 	board[0][7] = ROOK;
@@ -38,10 +42,10 @@ void print_board(char board[8][8])
 
 void execute_move(char board[8][8], char *move)
 {
-	int org_column = toupper(move[0]) - 'A';
-	int org_row = toupper(move[1]) - '1';
-	int dst_column = toupper(move[2]) - 'A';
-	int dst_row = toupper(move[3]) - '1';
+	int org_column = move[0] - 'A';
+	int org_row = move[1] - '1';
+	int dst_column = move[2] - 'A';
+	int dst_row = move[3] - '1';
 	board[dst_row][dst_column] = board[org_row][org_column];
 	board[org_row][org_column] = ' ';
 }
