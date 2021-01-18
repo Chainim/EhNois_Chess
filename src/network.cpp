@@ -69,8 +69,16 @@ void recv_all(SOCKET &socket, char *buff, int len)
 		read = recv(socket, buff + total_read, len - total_read, 0);
 		if(read == SOCKET_ERROR)
 		{
-			fprintf(stderr, "Error ocurred while receiving (Error %d)\n", WSAGetLastError());
-			return;
+			int err = WSAGetLastError();
+			if(err != WSAEWOULDBLOCK)
+			{
+				fprintf(stderr, "Error ocurred while receiving (Error %d)\n", err);
+				LPSTR err_str = NULL;
+				FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER, 0, err, MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&err_str, 0, NULL);
+				fprintf(stderr, "Detailed error info: %s\n", err_str);
+				LocalFree(err_str);
+				return;
+			}
 		}
 		total_read += read;
 	}
@@ -84,8 +92,16 @@ void send_all(SOCKET &socket, const char *buff, int len)
 		sent = send(socket, buff + total_sent, len - total_sent, 0);
 		if(sent == SOCKET_ERROR)
 		{
-			fprintf(stderr, "Error ocurred while sending (Error %d)\n", WSAGetLastError());
-			return;
+			int err = WSAGetLastError();
+			if(err != WSAEWOULDBLOCK)
+			{
+				fprintf(stderr, "Error ocurred while sending (Error %d)\n", err);
+				LPSTR err_str = NULL;
+				FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER, 0, err, MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&err_str, 0, NULL);
+				fprintf(stderr, "Detailed error info: %s\n", err_str);
+				LocalFree(err_str);
+				return;
+			}
 		}
 		total_sent += sent;
 	}
@@ -115,4 +131,48 @@ void set_tcpnodelay(SOCKET &s, bool val)
 		fprintf(stderr, "setsockopt (tcp_nodelay) failed (Error %d)\n", sockopterror);
 		closesocket(s);
 	}
+}
+
+bool send_nonblocking(SOCKET &s, const char *buff, int len, int &pos)
+{
+	int ret = send(s, buff + pos, len - pos, 0);
+	if(ret == SOCKET_ERROR)
+	{
+		int error = WSAGetLastError();
+		if(error == WSAEWOULDBLOCK)
+		{
+
+		}
+		else
+		{
+			fprintf(stderr, "Socket error (Error %d)\n", error);
+		}
+	}
+	else
+	{
+		pos += ret;
+	}
+	return len == pos;
+}
+
+bool recv_nonblocking(SOCKET &s, char *buff, int len, int &pos)
+{
+	int ret = recv(s, buff + pos, len - pos, 0);
+	if(ret == SOCKET_ERROR)
+	{
+		int error = WSAGetLastError();
+		if(error == WSAEWOULDBLOCK)
+		{
+
+		}
+		else
+		{
+			fprintf(stderr, "Socket error (Error %d)\n", error);
+		}
+	}
+	else
+	{
+		pos += ret;
+	}
+	return len == pos;
 }

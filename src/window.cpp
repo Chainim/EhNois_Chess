@@ -132,8 +132,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_CHAR:
 		{
 			char key = wParam;
-			key_buff[key_buff_sz++] = key;
-			key_buff[key_buff_sz] = 0;
+			if(key != '\b')
+			{
+				key_buff[key_buff_sz++] = key;
+				key_buff[key_buff_sz] = 0;
+			}
+			else if(key_buff_sz > 0)
+			{
+				key_buff[--key_buff_sz] = 0;
+			}
 			break;
 		}
 		case WM_MOUSEMOVE:

@@ -12,3 +12,5 @@ void board_init(char board[8][8]);
 void print_board(char board[8][8]);
 
 bool validate_move(char board[8][8]);
+
+void execute_move(char board[8][8], char *move);

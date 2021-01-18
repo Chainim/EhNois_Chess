@@ -46,8 +46,6 @@ int main()
 		// int dst_row = move[3] - '1';
 		// board[dst_row][dst_column] = board[org_row][org_column];
 		// board[org_row][org_column] = ' ';
-		// print_board(board);
-
 
 		// black_turn = !black_turn;
 	}

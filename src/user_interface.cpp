@@ -64,6 +64,9 @@ void draw_string(float x, float y, float char_width, float char_height, const ch
 	glDisable(GL_TEXTURE_2D);
 }
 
+extern char key_buff[256];
+extern short key_buff_sz;
+
 void draw_interface(char board[8][8])
 {
 	glClearColor(0.375f, 0.375f, 0.375f, 1.0f);
@@ -111,4 +114,10 @@ void draw_interface(char board[8][8])
 		glColor3f(1.0f, 1.0f, 1.0f);
 		draw_string(j * quad_width - 1 + horizontal_margin, 1 - vertical_margin, quad_width, quad_height, s);
 	}
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	char temp[256];
+	for(int i = 0; i <= key_buff_sz; ++i)
+		temp[i] = toupper(key_buff[i]);
+	draw_string(-1.0f, -1.0f, 0.05f, 0.05f, temp);
 }

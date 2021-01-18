@@ -35,3 +35,13 @@ void print_board(char board[8][8])
 		printf("\n");
 	}
 }
+
+void execute_move(char board[8][8], char *move)
+{
+	int org_column = toupper(move[0]) - 'A';
+	int org_row = toupper(move[1]) - '1';
+	int dst_column = toupper(move[2]) - 'A';
+	int dst_row = toupper(move[3]) - '1';
+	board[dst_row][dst_column] = board[org_row][org_column];
+	board[org_row][org_column] = ' ';
+}
