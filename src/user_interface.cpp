@@ -67,6 +67,8 @@ void draw_string(float x, float y, float char_width, float char_height, const ch
 extern char key_buff[256];
 extern short key_buff_sz;
 
+extern char recebe_lado;
+
 void draw_interface(char board[8][8])
 {
 	glClearColor(0.375f, 0.375f, 0.375f, 1.0f);
@@ -120,4 +122,8 @@ void draw_interface(char board[8][8])
 	for(int i = 0; i <= key_buff_sz; ++i)
 		temp[i] = toupper(key_buff[i]);
 	draw_string(-1.0f, -1.0f, 0.05f, 0.05f, temp);
+
+	temp[0] = recebe_lado;
+	temp[1] = 0;
+	draw_string(-1.0f, 1.0f - 0.05f, 0.05f, 0.05f, temp);
 }

@@ -80,7 +80,10 @@ void recv_all(SOCKET &socket, char *buff, int len)
 				return;
 			}
 		}
-		total_read += read;
+		else
+		{
+			total_read += read;
+		}
 	}
 }
 
@@ -103,7 +106,10 @@ void send_all(SOCKET &socket, const char *buff, int len)
 				return;
 			}
 		}
-		total_sent += sent;
+		else
+		{
+			total_sent += sent;
+		}
 	}
 }
 
@@ -135,8 +141,8 @@ void set_tcpnodelay(SOCKET &s, bool val)
 
 bool send_nonblocking(SOCKET &s, const char *buff, int len, int &pos)
 {
-	int ret = send(s, buff + pos, len - pos, 0);
-	if(ret == SOCKET_ERROR)
+	int sent = send(s, buff + pos, len - pos, 0);
+	if(sent == SOCKET_ERROR)
 	{
 		int error = WSAGetLastError();
 		if(error == WSAEWOULDBLOCK)
@@ -150,15 +156,15 @@ bool send_nonblocking(SOCKET &s, const char *buff, int len, int &pos)
 	}
 	else
 	{
-		pos += ret;
+		pos += sent;
 	}
 	return len == pos;
 }
 
 bool recv_nonblocking(SOCKET &s, char *buff, int len, int &pos)
 {
-	int ret = recv(s, buff + pos, len - pos, 0);
-	if(ret == SOCKET_ERROR)
+	int read = recv(s, buff + pos, len - pos, 0);
+	if(read == SOCKET_ERROR)
 	{
 		int error = WSAGetLastError();
 		if(error == WSAEWOULDBLOCK)
@@ -172,7 +178,10 @@ bool recv_nonblocking(SOCKET &s, char *buff, int len, int &pos)
 	}
 	else
 	{
-		pos += ret;
+		pos += read;
 	}
-	return len == pos;
+	bool ret = (len == pos);
+	if(ret)
+		pos = 0;
+	return ret;
 }

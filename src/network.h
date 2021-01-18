@@ -17,3 +17,7 @@ void send_all(SOCKET &s, const char *buff, int len);
 void set_blocking(SOCKET &s, bool blocking);
 
 void set_tcpnodelay(SOCKET &s, bool val);
+
+bool send_nonblocking(SOCKET &s, const char *buff, int len, int &pos);
+
+bool recv_nonblocking(SOCKET &s, char *buff, int len, int &pos);
